@@ -1,50 +1,61 @@
-import React, { Component } from 'react'
-import Node from './Node/Node'
+import React, { Component } from "react";
+import Node from "./Node/Node";
 
-import './PathfindingVisualizer.css'
+import "./PathfindingVisualizer.css";
 
 class PathfindingVisualizer extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            nodes: [],
-        }
+  constructor(props) {
+    super(props);
+    this.state = {
+      nodes: [],
+    };
+  }
+
+  componentDidMount() {
+    // this is called after the component is rendered
+    const nodes = [];
+    for (let row = 0; row < 20; row++) {
+      const currentRow = [];
+      for (let col = 0; col < 50; col++) {
+        const currntNode = {
+          col,
+          row,
+          isStart: row === 10 && col === 5,
+          isFinish: row === 2 && col === 45,
+        };
+        currentRow.push(currntNode);
+      }
+      nodes.push(currentRow);
     }
+    this.setState({ nodes });
+  }
 
-    componentDidMount() { // this is called after the component is rendered
-        const nodes = []
-        for (let row = 0; row < 20; row++){
-            const currentRow = []
-            for (let col = 0; col < 50; col++){
-                currentRow.push([])
+  render() {
+    const { nodes } = this.state;
+    console.log(nodes);
 
-            }
-            nodes.push(currentRow)
-
-        }
-        this.setState({ nodes })
-
-    }
-
-    render() {
-        const { nodes } = this.state
-        console.log(nodes)
-
-        return (
-            <div className='grid'>
-                {
-                    nodes.map((row, rowIdx) => {
-                        return <div>
-                            {row.map((node, nodeIdx) =><Node key={nodeIdx}></Node>)}
-                        </div>
-
-                    })
-                }
-                
-               
+    return (
+      <div className="grid">
+        {nodes.map((row, rowIdx) => {
+          return (
+            <div key={rowIdx}>
+              {row.map((node, nodeIdx) => {
+                const { isStart, isFinish } = node;
+                return (
+                  <Node
+                    key={nodeIdx}
+                    isStart={isStart}
+                    isFinish={isFinish}
+                    test={"foo"}
+                  ></Node>
+                );
+              })}
             </div>
-        );
-    }
+          );
+        })}
+      </div>
+    );
+  }
 }
 
-export default PathfindingVisualizer
+export default PathfindingVisualizer;
