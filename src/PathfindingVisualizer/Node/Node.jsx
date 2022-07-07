@@ -32,3 +32,15 @@ export default class Node extends Component {
     );
   }
 }
+
+/*  each node has and unique id that is the row and col number
+    the id is used to identify the node in the grid
+
+    the className is used to style the node
+    if the node is a finish node, it is styled with the className 'node-finish'
+    if the node is a start node, it is styled with the className 'node-start'
+    if node is a wall node, it is styled with the className 'node-wall'
+    if node is neither a finish node, start node, or wall node, it is styled with the className 'node'
+
+
+    */

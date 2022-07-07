@@ -1,15 +1,47 @@
 .node {
-    width: 25px;
-      height: 25px;
-      outline: 1px solid rgb(14, 56, 88);
-      display: inline-block;
-      /* border-radius: 50%;    */       
-} 
+  /* general node */
+  width: 25px;
+  /* width of the node */
+  height: 25px;
+  /* height of the node */
+  outline: 1px solid rgb(55, 113, 158);
+  /* outline of the node */
+  display: inline-block
+    /* display the node inline-block */
+
+}
+
 
 .node-finish {
+  /* Node that is the finish */
   background-color: red;
 }
 
 .node-start {
+  /* Node that is the start */
   background-color: green;
+}
+
+.node-wall {
+  /* Node that is a wall */
+  background-color: rgb(12, 53, 71) ;
+
+}
+
+
+
+.node-visited {
+  /* Node that has been visited */
+
+  background-color: rgb(151, 209, 122);
+
+}
+
+
+
+.node-shortest-path {
+  background-color: rgb(255, 255, 0);
+
+
+
 }
