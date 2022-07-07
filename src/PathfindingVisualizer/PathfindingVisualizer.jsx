@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import Node from './Node/Node';
-import {dijkstra, getNodesInShortestPathOrder} from '../algorithms/dijkstra';
+import { dijkstra, getNodesInShortestPathOrder } from '../algorithms/dijkstra';
+import { dfs ,getNodesInShortestPathOrder_dfs } from '../algorithms/dfs';
+import { bfs } from '../algorithms/bfs';
 
 import './PathfindingVisualizer.css';
 
@@ -56,7 +58,7 @@ export default class PathfindingVisualizer extends Component {
       if (i === visitedNodesInOrder.length) { // if the i is equal to the visited nodes in order length,
         setTimeout(() => {  // set a timeout to animate the shortest path
           this.animateShortestPath(nodesInShortestPathOrder);
-        }, 20 * i);
+        }, 10 * i);
         return;
       }
 
@@ -64,7 +66,7 @@ export default class PathfindingVisualizer extends Component {
         const node = visitedNodesInOrder[i];    // get the node from the visited nodes in order
         document.getElementById(`node-${node.row}-${node.col}`).className =
           'node node-visited';  // update the node class name to node-visited
-      }, 20*i); // set the timeout for the animation
+      }, 10 * i); // set the timeout for the animation
     }
   }
 
@@ -86,8 +88,9 @@ export default class PathfindingVisualizer extends Component {
     const {grid} = this.state;    // get current grid from the state
     const startNode = grid[START_NODE_ROW][START_NODE_COL]; // get the start node from the grid
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];  // get the finish node from the grid
-    const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);  // get the visited nodes in order from the dijkstra algorithm
-    const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode); // get the nodes in shortest path order from the finish node
+    const visitedNodesInOrder = dfs(grid, startNode, finishNode);  // get the visited nodes in order from the dijkstra algorithm
+    
+    const nodesInShortestPathOrder = getNodesInShortestPathOrder_dfs(finishNode); // get the nodes in shortest path order from the finish node
     this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);  // animate the dijkstra algorithm
   }
     

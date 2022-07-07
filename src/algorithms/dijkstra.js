@@ -51,6 +51,7 @@ function getUnvisitedNeighbors(node, grid) {
   if (row < grid.length - 1) neighbors.push(grid[row + 1][col]);  // add the node below the node
   if (col > 0) neighbors.push(grid[row][col - 1]);  // add the node to the left of the node
   if (col < grid[0].length - 1) neighbors.push(grid[row][col + 1]); // add the node to the right of the node
+  
   return neighbors.filter((neighbor) => !neighbor.isVisited); // filter out the visited neighbors
 }
 
