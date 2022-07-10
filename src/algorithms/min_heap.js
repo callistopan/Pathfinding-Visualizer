@@ -4,6 +4,7 @@ export default class MinHeap {
 
     constructor() {
         this.heap = [];
+        console.log(this.heap)
     }
 
     get_parent(i) {

@@ -7,41 +7,29 @@ import MinHeap from './min_heap';
 export function Astar(grid, startNode, finishNode) {
     // closedList is 2d array of boolean
     let visitedNodesInorder=[]
-    // node details
-    let nodeDetails = new Array(grid.length);
-    for (let i = 0; i < grid.length; i++) {
-        nodeDetails[i] = new Array(grid[0].length);
-    }
-    // set each node to to an object
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[0].length; j++) {
-            nodeDetails[i][j] = {
-                f: 10000,
-                g: 10000,
-                h: 10000,
-                previousNode: null
-            }
-        }
-    }
-    // set the start node to 0
-    nodeDetails[startNode.row][startNode.col].g = 0;
-    nodeDetails[startNode.row][startNode.col].h = 0;
-    nodeDetails[startNode.row][startNode.col].f = 0;
+    
+    startNode.f=0;
+    startNode.g = 0;
+    startNode.h = 0;
+
 
     // create a min heap
     let minHeap = new MinHeap();
     // insert the start node
+  
     minHeap.insert(startNode);
-    console.log(minHeap.heap)
+    console.log(minHeap.heap.length)
+
 
 
     while (!minHeap.is_empty()) {
-        console.log('hi')
+        
 
         // choose in openlist having lowest f score
         let currentNode = minHeap.extract_min();
+        console.log(currentNode.f)
         if (currentNode === finishNode) {
-            console.log(visitedNodesInorder)
+           
             return visitedNodesInorder;
         }
 
@@ -56,17 +44,16 @@ export function Astar(grid, startNode, finishNode) {
             
 
             //update the g score
-            let gScore = nodeDetails[currentNode.row][currentNode.col].g + 1;
-            if (gScore < nodeDetails[neighbor.row][neighbor.col].g) {
+            let gScore = currentNode.g +1
+            if (gScore < neighbor.g) {
                 neighbor.previousNode = currentNode;
-                nodeDetails[neighbor.row][neighbor.col].g = gScore;
-                nodeDetails[neighbor.row][neighbor.col].h= heuristic(neighbor, finishNode);
-                nodeDetails[neighbor.row][neighbor.col].f = nodeDetails[neighbor.row][neighbor.col].g + nodeDetails[neighbor.row][neighbor.col].h;
-                // if neighbor is not in openlist, add it to openlist
-                if (!neighbor.isVisited) {
-                    console.log("neighbor")
+                neighbor.g = gScore;
+                neighbor.h= heuristic(neighbor, finishNode);
+                neighbor.f = neighbor.g + neighbor.h;
+                // if neighbor is not in heap then insert it
+                if (!minHeap.heap.includes(neighbor)) {
                     if (!neighbor.isWall) {
-                       minHeap.insert(neighbor);
+                        minHeap.insert(neighbor);
                     }
                     
                 }

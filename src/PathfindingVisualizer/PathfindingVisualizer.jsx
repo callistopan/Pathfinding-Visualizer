@@ -121,7 +121,7 @@ export default class PathfindingVisualizer extends Component {
 
     return (
       <>
-        <select name="algorithm" id="algorithm">
+        <select name="algorithm" id="algorithm" defaultValue="astar">
 
           <option value="bfs">BFS</option>
           <option value="dfs">DFS</option>
@@ -187,6 +187,9 @@ const createNode = (col, row) => {
     isVisited: false, // if the node has been visited
     isWall: false, // if the node is a wall
     previousNode: null, // previous node of this node
+    f: 10000,
+    g: 10000,
+    h: 10000,
   };
 };
 
@@ -194,10 +197,11 @@ const createNode = (col, row) => {
 const getNewGridWithWallToggled = (grid, row, col) => {
   const newGrid = grid.slice(); // copy the grid
   const node = newGrid[row][col]; // get the node
+
   const newNode = {
     // create a new node
     ...node, // copy the properties of the old node
-    isWall: !node.isWall, // toggle the wall property
+    isWall: (row===FINISH_NODE_ROW && col===FINISH_NODE_COL)? node.isWall:!node.isWall , // toggle the wall property
   };
   newGrid[row][col] = newNode; //  update the grid
   return newGrid; // return the new grid
