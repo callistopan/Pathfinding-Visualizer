@@ -4,16 +4,6 @@
 export function Astar(grid, startNode, finishNode) {
     // closedList is 2d array of boolean
     let visitedNodesInorder=[]
-    let closedList = new Array(grid.length);
-    for (let i = 0; i < grid.length; i++) {
-        closedList[i] = new Array(grid[0].length);
-    }
-    // set each node to false
-    for (let i = 0; i < grid.length; i++) {
-        for (let j = 0; j < grid[0].length; j++) {
-            closedList[i][j] = false;
-        }
-    }
     // node details
     let nodeDetails = new Array(grid.length);
     for (let i = 0; i < grid.length; i++) {
@@ -57,8 +47,6 @@ export function Astar(grid, startNode, finishNode) {
         }
         // remove current node from openlist
         openList.splice(openList.indexOf(currentNode), 1);
-        // add current node to closedlist
-        closedList[currentNode.row][currentNode.col] = true;
 
         currentNode.isVisited = true;
         visitedNodesInorder.push(currentNode);
