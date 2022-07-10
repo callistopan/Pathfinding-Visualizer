@@ -1,3 +1,6 @@
+//import minHeap from './min_heap';
+
+import MinHeap from './min_heap';
 // a star algorithm for finding the shortest path
 
 
@@ -25,28 +28,23 @@ export function Astar(grid, startNode, finishNode) {
     nodeDetails[startNode.row][startNode.col].h = 0;
     nodeDetails[startNode.row][startNode.col].f = 0;
 
-    //openlist
-    let openList = [];
-    openList.push(startNode);
+    // create a min heap
+    let minHeap = new MinHeap();
+    // insert the start node
+    minHeap.insert(startNode);
+    console.log(minHeap.heap)
 
 
-    while (openList.length) {
+    while (!minHeap.is_empty()) {
         console.log('hi')
 
         // choose in openlist having lowest f score
-        let currentNode = openList[0];
-        
-        for (let i = 0; i < openList.length; i++) {
-            if (nodeDetails[openList[i].row][openList[i].col].f < nodeDetails[currentNode.row][currentNode.col].f) {
-                currentNode = openList[i];
-            }
-        }
+        let currentNode = minHeap.extract_min();
         if (currentNode === finishNode) {
             console.log(visitedNodesInorder)
             return visitedNodesInorder;
         }
-        // remove current node from openlist
-        openList.splice(openList.indexOf(currentNode), 1);
+
 
         currentNode.isVisited = true;
         visitedNodesInorder.push(currentNode);
@@ -65,10 +63,10 @@ export function Astar(grid, startNode, finishNode) {
                 nodeDetails[neighbor.row][neighbor.col].h= heuristic(neighbor, finishNode);
                 nodeDetails[neighbor.row][neighbor.col].f = nodeDetails[neighbor.row][neighbor.col].g + nodeDetails[neighbor.row][neighbor.col].h;
                 // if neighbor is not in openlist, add it to openlist
-                if (!openList.includes(neighbor)) {
+                if (!neighbor.isVisited) {
                     console.log("neighbor")
                     if (!neighbor.isWall) {
-                        openList.push(neighbor);
+                       minHeap.insert(neighbor);
                     }
                     
                 }
