@@ -51,7 +51,7 @@ export function Astar(grid, startNode, finishNode) {
                 neighbor.h= heuristic(neighbor, finishNode);
                 neighbor.f = neighbor.g + neighbor.h;
                 // if neighbor is not in heap then insert it
-                if (!minHeap.heap.includes(neighbor)) {
+                if (!neighbor.isVisited) {
                     if (!neighbor.isWall) {
                         minHeap.insert(neighbor);
                     }

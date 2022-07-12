@@ -87,7 +87,7 @@ export default class PathfindingVisualizer extends Component {
     const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL]; // get the finish node from the grid
     const algorithm = document.getElementById("algorithm").value; // get the algorithm from the dropdown menu
     // switch statement to call the appropriate algorithm
-    let visitedNodesInOrder =[]
+    let visitedNodesInOrder = [];
     switch (algorithm) {
       case "bfs":
         visitedNodesInOrder = bfs(grid, startNode, finishNode);
@@ -113,7 +113,6 @@ export default class PathfindingVisualizer extends Component {
   reset() {
     // refresh the page
     window.location.reload();
-    
   }
 
   render() {
@@ -122,7 +121,6 @@ export default class PathfindingVisualizer extends Component {
     return (
       <>
         <select name="algorithm" id="algorithm" defaultValue="astar">
-
           <option value="bfs">BFS</option>
           <option value="dfs">DFS</option>
           <option value="dijkstra">Dijkstra</option>
@@ -130,7 +128,7 @@ export default class PathfindingVisualizer extends Component {
         </select>
 
         <button onClick={() => this.visualizeAlgorithms()}>Visualize</button>
-        <button onClick={()=> this.reset()}>Reset</button>
+        <button onClick={() => this.reset()}>Reset</button>
 
         <div className="grid">
           {grid.map((row, rowIdx) => {
@@ -201,7 +199,10 @@ const getNewGridWithWallToggled = (grid, row, col) => {
   const newNode = {
     // create a new node
     ...node, // copy the properties of the old node
-    isWall: (row===FINISH_NODE_ROW && col===FINISH_NODE_COL)? node.isWall:!node.isWall , // toggle the wall property
+    isWall:
+      row === FINISH_NODE_ROW && col === FINISH_NODE_COL
+        ? node.isWall
+        : !node.isWall, // toggle the wall property
   };
   newGrid[row][col] = newNode; //  update the grid
   return newGrid; // return the new grid

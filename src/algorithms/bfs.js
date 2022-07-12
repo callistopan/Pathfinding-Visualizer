@@ -9,7 +9,7 @@ export function bfs(grid, startNode, endNode) {
     
     q.push(startNode)
     while (q.length ) {
-        console.log('hi')
+
         const currentNode = q.shift()
         if (currentNode === endNode) {
             return visitedNodeInorder
