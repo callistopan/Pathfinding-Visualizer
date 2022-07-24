@@ -4,10 +4,12 @@ import { dijkstra, getNodesInShortestPathOrder } from "../algorithms/dijkstra";
 import { dfs, getNodesInShortestPathOrder_dfs } from "../algorithms/dfs";
 import { bfs } from "../algorithms/bfs";
 import { Astar } from "../algorithms/astar";
+import { get_shortest_path } from "../algorithms/get_shortest_path";
 
 import "./PathfindingVisualizer.css";
 
 // randomize the start and finish nodes
+
 const START_NODE_ROW = Math.floor(Math.random() * 20);
 
 const START_NODE_COL = Math.floor(Math.random() * 50);
@@ -97,6 +99,7 @@ export default class PathfindingVisualizer extends Component {
         break;
       case "dijkstra":
         visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
+        console.log(visitedNodesInOrder);
         break;
       case "astar":
         visitedNodesInOrder = Astar(grid, startNode, finishNode);
@@ -106,7 +109,7 @@ export default class PathfindingVisualizer extends Component {
     }
 
     const nodesInShortestPathOrder =
-      getNodesInShortestPathOrder_dfs(finishNode); // get the nodes in shortest path order from the finish node
+      get_shortest_path(finishNode); // get the nodes in shortest path order from the finish node
     this.animateAlgorithm(visitedNodesInOrder, nodesInShortestPathOrder); // animate the dijkstra algorithm
   }
 
@@ -185,9 +188,9 @@ const createNode = (col, row) => {
     isVisited: false, // if the node has been visited
     isWall: false, // if the node is a wall
     previousNode: null, // previous node of this node
-    f: 10000,
-    g: 10000,
-    h: 10000,
+    f: Infinity,
+    g: Infinity,
+    h: Infinity,
   };
 };
 

@@ -1,19 +1,28 @@
+import MinHeap_Dijkstra from "./priority_queue/min_heap_dijkstra";
+
+
 // Performs Dijkstra's algorithm; returns *all* nodes in the order
 // in which they were visited. Also makes nodes point back to their
 // previous node, effectively allowing us to compute the shortest path
 // by backtracking from the finish node.
+
+// O(ElogV) time
 export function dijkstra(grid, startNode, finishNode) {
 
+  
   const visitedNodesInOrder = []; // nodes in order of visited
   startNode.distance = 0;         // distance from start node to start node is 0
+  let MinHeap = new MinHeap_Dijkstra();
+  MinHeap.insert(startNode);      // insert the start node into the min heap
+
 
   const unvisitedNodes = getAllNodes(grid); // all nodes in the grid
 
-  while (!!unvisitedNodes.length) { // while there are still nodes to visit
+  while (!MinHeap.is_empty()) { // while there are still nodes to visit
 
-    sortNodesByDistance(unvisitedNodes);  // sort the unvisited nodes by distance
+    // sortNodesByDistance(unvisitedNodes);  // sort the unvisited nodes by distance
 
-    const closestNode = unvisitedNodes.shift(); // get the closest node
+    const closestNode = MinHeap.extract_min(); // get the closest node
     // If we encounter a wall, we skip it.
     if (closestNode.isWall) continue;
     // If the closest node is at a distance of infinity,
@@ -25,24 +34,22 @@ export function dijkstra(grid, startNode, finishNode) {
 
     if (closestNode === finishNode) return visitedNodesInOrder;  // we are done!
 
-    updateUnvisitedNeighbors(closestNode, grid);  // update the unvisited neighbors of the closest node
+    const unvisitedNeighbors = getUnvisitedNeighbors(closestNode, grid); // get the unvisited neighbors of the closest node
+    for (const neighbor of unvisitedNeighbors) {
+      // Update the distance to the neighbor and add it to the MinHeap
+      if (neighbor.distance > closestNode.distance + 1) {
+        neighbor.distance = closestNode.distance + 1;
+        neighbor.previousNode = closestNode;
+         MinHeap.insert(neighbor);
+      }
+      
+     
+    }
   }
-}
-
-// Sorts the unvisited nodes by distance.
-function sortNodesByDistance(unvisitedNodes) {
-  unvisitedNodes.sort((nodeA, nodeB) => nodeA.distance - nodeB.distance);
+  return visitedNodesInOrder;
 }
 
 
-// Updates the unvisited neighbors of the closest node.
-function updateUnvisitedNeighbors(node, grid) {
-  const unvisitedNeighbors = getUnvisitedNeighbors(node, grid); // get the unvisited neighbors of the closest node
-  for (const neighbor of unvisitedNeighbors) {
-    neighbor.distance = node.distance + 1;
-    neighbor.previousNode = node;
-  }
-}
 
 function getUnvisitedNeighbors(node, grid) {
   const neighbors = []; // neighbors of the node
@@ -65,19 +72,3 @@ function getAllNodes(grid) {
   return nodes;
 }
 
-// Backtracks from the finishNode to find the shortest path.
-// Only works when called *after* the dijkstra method above.
-// here we are using the fact that start node has no prev node.
-
-export function getNodesInShortestPathOrder(finishNode) {
-
-  const nodesInShortestPathOrder = [];  //  nodes in order of visited
-
-  let currentNode = finishNode; // start at the finish node
-
-  while (currentNode !== null) {  // while we haven't reached the start node
-    nodesInShortestPathOrder.unshift(currentNode);  // add the current node to the beginning of the array
-    currentNode = currentNode.previousNode;       // move to the previous node
-  }
-  return nodesInShortestPathOrder;  // return the nodes in order of visited
-}

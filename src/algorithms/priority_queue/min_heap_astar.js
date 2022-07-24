@@ -1,21 +1,21 @@
 // min heap for smallest f score
 
-export default class MinHeap {
+export default class MinHeap_AStar {
 
     constructor() {
         this.heap = [];
-        console.log(this.heap)
+
     }
 
     get_parent(i) {
         return Math.floor((i - 1) / 2);
     }
 
-    insert(data) {
+    insert(data) { // O(log n) time
         this.heap.push(data);
         let parent = this.get_parent(this.heap.length - 1);
         let index = this.heap.length - 1;
-        while (parent >=0 && this.heap[index].f < this.heap[parent].f) {
+        while (parent >= 0 && this.heap[index].f < this.heap[parent].f) {
             let temp = this.heap[index];
             this.heap[index] = this.heap[parent];
             this.heap[parent] = temp;
@@ -24,7 +24,7 @@ export default class MinHeap {
         }
     }
 
-    heapify(arr, n, i) {
+    heapify(arr, n, i) { // O(log n) time
         let smallest = i;
         let left = 2 * i + 1;
         let right = 2 * i + 2;
@@ -42,7 +42,7 @@ export default class MinHeap {
         }
     }
 
-    extract_min() {
+    extract_min() { // O(log n) time
         if (this.heap.length == 0) {
             return null;
         }
@@ -52,7 +52,7 @@ export default class MinHeap {
         this.heapify(this.heap, this.heap.length, 0);
         return min;
     }
-    is_empty() {
+    is_empty() { // O(1) time
         return this.heap.length == 0;
     }
 
